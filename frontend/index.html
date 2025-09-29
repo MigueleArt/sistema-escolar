@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- ... (tu head se mantiene igual) ... -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Gestión Escolar</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -9,52 +10,149 @@
         .view { display: none; }
         .view.active { display: block; }
         .nav-link { transition: all 0.2s ease-in-out; }
-        /* ... (tus otros estilos se mantienen igual) ... */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3b82f6; /* blue-500 */
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body class="bg-gray-100 font-sans">
-    <!-- ... (tu HTML se mantiene igual) ... -->
+
+    <!-- Vista de Inicio de Sesión -->
+    <div id="login-view" class="view active">
+        <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-md w-full space-y-8">
+                <div>
+                    <i class="fas fa-university mx-auto h-12 w-auto text-5xl text-green-700"></i>
+                    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                        Sistema de Gestión Escolar
+                    </h2>
+                </div>
+                <form id="login-form" class="mt-8 space-y-6">
+                    <div class="rounded-md shadow-sm -space-y-px">
+                        <div>
+                            <label for="matricula" class="sr-only">Matrícula</label>
+                            <input id="matricula" name="matricula" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm" placeholder="Matrícula (ej. 12345)" value="12345">
+                        </div>
+                        <div>
+                            <label for="password" class="sr-only">Contraseña</label>
+                            <input id="password" name="password" type="password" autocomplete="current-password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm" placeholder="Contraseña" value="password123">
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                                <i class="fas fa-lock h-5 w-5 text-green-600 group-hover:text-green-400"></i>
+                            </span>
+                            Ingresar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vista Principal de la Aplicación -->
+    <div id="app-view" class="view">
+        <div class="flex h-screen bg-gray-200">
+            <!-- Barra Lateral -->
+            <div class="hidden md:flex flex-col w-64 bg-gray-800">
+                <div class="flex items-center justify-center h-16 bg-gray-900">
+                    <i class="fas fa-university text-white text-2xl mr-2"></i>
+                    <span class="text-white font-bold uppercase">UTT</span>
+                </div>
+                <div class="flex flex-col flex-1 overflow-y-auto">
+                    <nav class="flex-1 px-2 py-4 bg-gray-800">
+                        <a href="#dashboard" class="nav-link flex items-center px-4 py-2 text-gray-100 bg-green-700 rounded-md">
+                            <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
+                        </a>
+                        <a href="#perfil" class="nav-link flex items-center px-4 py-2 mt-2 text-gray-400 hover:bg-gray-700 hover:text-gray-100 rounded-md">
+                            <i class="fas fa-user mr-2"></i> Mi Perfil
+                        </a>
+                        <a href="#inscripciones" class="nav-link flex items-center px-4 py-2 mt-2 text-gray-400 hover:bg-gray-700 hover:text-gray-100 rounded-md">
+                            <i class="fas fa-edit mr-2"></i> Inscripciones
+                        </a>
+                        <a href="#pagos" class="nav-link flex items-center px-4 py-2 mt-2 text-gray-400 hover:bg-gray-700 hover:text-gray-100 rounded-md">
+                            <i class="fas fa-dollar-sign mr-2"></i> Pagos
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Contenido Principal -->
+            <div class="flex flex-col flex-1 overflow-y-auto">
+                <div class="p-4">
+                    <div id="dashboard-content" class="app-content"></div>
+                    <div id="perfil-content" class="app-content"></div>
+                    <div id="inscripciones-content" class="app-content"></div>
+                    <div id="pagos-content" class="app-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Genérico -->
+    <div id="modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3 text-center">
+                <div id="modal-icon" class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-100">
+                </div>
+                <h3 id="modal-title" class="text-lg leading-6 font-medium text-gray-900"></h3>
+                <div class="mt-2 px-7 py-3">
+                    <p id="modal-body" class="text-sm text-gray-500"></p>
+                </div>
+                <div id="modal-loader-container" class="hidden justify-center items-center py-3">
+                    <div class="loader"></div>
+                    <p class="ml-3 text-gray-600">Procesando...</p>
+                </div>
+                <div id="modal-footer" class="items-center px-4 py-3">
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         // --- ESTADO DE LA APLICACIÓN ---
         const AppState = { currentUser: null, materias: [], inscripciones: [], pagos: [] };
-
-        // --- API REAL (Llamadas a microservicios a través del Gateway en Render) ---
-        // URL PÚBLICA DE TU API GATEWAY
+        
+        // --- URL DEL GATEWAY EN RENDER ---
         const API_BASE_URL = 'https://api-gateway-bimt.onrender.com/api';
 
+        // --- LÓGICA DE API ---
         const api = {
-            login: (matricula, password) => new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    if (matricula === '12345' && password === 'password123') {
-                        resolve({
-                            nombre: 'Juan Alumno',
-                            matricula: '12345',
-                            email: 'juan.alumno@universidad.edu',
-                            carrera: 'Ingeniería en Sistemas Computacionales',
-                            cuatrimestre: '5to',
-                            grupo: 'A'
-                        });
-                    } else {
-                        reject('Credenciales inválidas');
-                    }
-                }, 1000);
-            }),
+            login: (matricula, password) => {
+                // La autenticación real debería hacerse contra un servicio, pero la mantenemos simulada por ahora.
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        if (matricula === '12345' && password === 'password123') {
+                            resolve({
+                                nombre: 'Miguel Alumno',
+                                matricula: '12345',
+                                email: 'miguel.alumno@universidad.edu',
+                                carrera: 'Ingeniería en Desarrollo de Software',
+                                cuatrimestre: '7mo',
+                                grupo: 'A'
+                            });
+                        } else {
+                            reject('Credenciales inválidas');
+                        }
+                    }, 1000);
+                });
+            },
             getMaterias: async () => {
-                 try {
-                    // En este caso, para obtener las materias, podríamos llamar directamente
-                    // al servicio de inscripciones o a través del gateway.
-                    // Usemos el gateway para mantener la consistencia.
-                    const response = await fetch('https://servicio-inscripciones-escolar.onrender.com/materias');
-                    if (!response.ok) throw new Error('Error al cargar las materias');
-                    const materias = await response.json();
-                    AppState.materias = materias;
-                    return materias;
-                } catch (error) {
-                    console.error("Error en getMaterias:", error);
-                    alert(`Error al cargar materias: ${error.message}`);
-                    return [];
-                }
+                const response = await fetch(`${API_BASE_URL}/inscripciones/materias`);
+                if (!response.ok) throw new Error('Error al cargar las materias');
+                const materias = await response.json();
+                AppState.materias = materias;
+                return materias;
             },
             inscribirMateria: async (materiaId) => {
                 const response = await fetch(`${API_BASE_URL}/inscripciones`, {
@@ -63,7 +161,7 @@
                     body: JSON.stringify({ materiaId })
                 });
                 const result = await response.json();
-                if (!response.ok) throw new Error(result.error);
+                if (!response.ok) throw new Error(result.error || 'Error al inscribir materia');
                 AppState.inscripciones.push({ materiaId, status: 'PENDIENTE_PAGO' });
                 return result;
             },
@@ -74,7 +172,7 @@
                     body: JSON.stringify({ inscripcionId: inscripcion.materiaId })
                 });
                 const result = await response.json();
-                if (!response.ok) throw new Error(result.error);
+                if (!response.ok) throw new Error(result.error || 'Error al procesar el pago');
                 
                 const inscripcionIndex = AppState.inscripciones.findIndex(i => i.materiaId === inscripcion.materiaId);
                 if (inscripcionIndex !== -1) {
@@ -88,10 +186,109 @@
             }
         };
 
-        // --- (El resto de tu código JavaScript se mantiene igual) ---
         // --- MANEJO DE VISTAS Y NAVEGACIÓN ---
         const loginView = document.getElementById('login-view');
-        // ...
+        const appView = document.getElementById('app-view');
+        
+        function showView(viewId) {
+            loginView.classList.remove('active');
+            appView.classList.remove('active');
+            document.getElementById(viewId).classList.add('active');
+        }
+
+        function navigate(hash) {
+            if (!hash) hash = '#dashboard';
+            
+            document.querySelectorAll('.app-content').forEach(c => c.style.display = 'none');
+            document.querySelectorAll('.nav-link').forEach(l => {
+                l.classList.remove('bg-green-700', 'text-gray-100');
+                l.classList.add('text-gray-400');
+            });
+
+            const contentId = `${hash.substring(1)}-content`;
+            const activeContent = document.getElementById(contentId);
+            const activeLink = document.querySelector(`.nav-link[href="${hash}"]`);
+
+            if (activeContent) {
+                activeContent.style.display = 'block';
+                if (activeLink) {
+                    activeLink.classList.remove('text-gray-400');
+                    activeLink.classList.add('bg-green-700', 'text-gray-100');
+                }
+                
+                switch(hash) {
+                    case '#dashboard': renderDashboard(); break;
+                    case '#perfil': renderPerfil(); break;
+                    case '#inscripciones': renderInscripciones(); break;
+                    case '#pagos': renderPagos(); break;
+                }
+            }
+        }
+
+        // --- RENDERIZADO DE CONTENIDO ---
+        function renderDashboard() {
+            const inscritas = AppState.inscripciones.filter(i => i.status === 'INSCRITO').length;
+            const materiasInscritas = AppState.inscripciones
+                .filter(i => i.status === 'INSCRITO')
+                .map(inscripcion => AppState.materias.find(m => m.id === inscripcion.materiaId));
+
+            let materiasHtml = materiasInscritas.length > 0 ? materiasInscritas.map(m => `
+                <div class="border-t border-gray-200 p-4 flex justify-between items-center">
+                    <div><p class="font-semibold text-gray-800">${m.nombre}</p><p class="text-sm text-gray-500">${m.profesor}</p></div>
+                    <span class="text-sm font-medium text-green-600 bg-green-100 py-1 px-3 rounded-full">Inscrito</span>
+                </div>`).join('') : '<p class="p-4 text-gray-500 text-center">Aún no tienes materias inscritas.</p>';
+
+            document.getElementById('dashboard-content').innerHTML = `
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Bienvenido, ${AppState.currentUser.nombre}</h1>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-white rounded-lg shadow p-6 flex items-center"><i class="fas fa-book text-3xl text-green-600 mr-4"></i><div><p class="text-sm text-gray-500">Materias Inscritas</p><p class="text-2xl font-bold text-gray-900">${inscritas}</p></div></div>
+                    <div class="bg-white rounded-lg shadow p-6 flex items-center"><i class="fas fa-calendar-alt text-3xl text-green-600 mr-4"></i><div><p class="text-sm text-gray-500">Próximo Periodo</p><p class="text-xl font-bold text-gray-900">Sep - Dic 2025</p></div></div>
+                </div>
+                <div class="bg-white rounded-lg shadow"><div class="p-6 border-b border-gray-200"><h2 class="text-xl font-bold text-gray-800">Mis Materias Inscritas</h2></div><div>${materiasHtml}</div></div>`;
+        }
+        
+        function renderPerfil() { /* ... Lógica similar para perfil ... */ }
+        function renderInscripciones() { /* ... Lógica para inscripciones ... */ }
+        function renderPagos() { /* ... Lógica para pagos ... */ }
+
+        // --- MANEJADORES DE EVENTOS ---
+        async function handleLogin(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = `<div class="loader mx-auto"></div>`;
+
+            try {
+                const matricula = document.getElementById('matricula').value;
+                const password = document.getElementById('password').value;
+                const user = await api.login(matricula, password);
+                AppState.currentUser = user;
+                
+                await api.getMaterias();
+                
+                showView('app-view');
+                navigate(window.location.hash);
+            } catch (error) {
+                alert(error);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        }
+
+        // --- LÓGICA DE INICIO ---
+        function initApp() {
+            const loginForm = document.getElementById('login-form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', handleLogin);
+            }
+            window.addEventListener('hashchange', () => navigate(window.location.hash));
+            showView('login-view');
+        }
+
+        // --- EVENTO DE INICIO ---
+        window.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
