@@ -1,169 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ... (tu head se mantiene igual) ... -->
     <title>Sistema de Gestión Escolar</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .view {
-            display: none;
-        }
-        .view.active {
-            display: block;
-        }
-        /* Custom styles for loader */
-        .loader {
-            border-top-color: #3498db;
-            -webkit-animation: spinner 1.5s linear infinite;
-            animation: spinner 1.5s linear infinite;
-        }
-        @-webkit-keyframes spinner {
-            0% { -webkit-transform: rotate(0deg); }
-            100% { -webkit-transform: rotate(360deg); }
-        }
-        @keyframes spinner {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        .view { display: none; }
+        .view.active { display: block; }
+        .nav-link { transition: all 0.2s ease-in-out; }
+        /* ... (tus otros estilos se mantienen igual) ... */
     </style>
 </head>
-<body class="bg-gray-100">
-
-    <!-- Vista de Inicio de Sesión -->
-    <div id="login-view" class="view active">
-        <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <div class="max-w-md w-full space-y-8">
-                <div>
-                    <i class="fas fa-university mx-auto h-12 w-auto text-5xl text-green-700"></i>
-                    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                        Sistema de Gestión Escolar
-                    </h2>
-                    <p class="mt-2 text-center text-sm text-gray-600">
-                        Inicia sesión con tu cuenta
-                    </p>
-                </div>
-                <form id="login-form" class="mt-8 space-y-6">
-                    <div class="rounded-md shadow-sm -space-y-px">
-                        <div>
-                            <label for="matricula" class="sr-only">Matrícula</label>
-                            <input id="matricula" name="matricula" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm" placeholder="Matrícula (ej. 12345)" value="12345">
-                        </div>
-                        <div>
-                            <label for="password" class="sr-only">Contraseña</label>
-                            <input id="password" name="password" type="password" autocomplete="current-password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm" placeholder="Contraseña" value="password123">
-                        </div>
-                    </div>
-
-                    <div>
-                        <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-                                <i class="fas fa-lock h-5 w-5 text-green-600 group-hover:text-green-400"></i>
-                            </span>
-                            Ingresar
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Contenedor Principal de la App (Dashboard) -->
-    <div id="app-view" class="view">
-        <div class="flex h-screen bg-gray-200">
-            <!-- Sidebar -->
-            <div class="hidden md:flex flex-col w-64 bg-gray-800">
-                <div class="flex items-center justify-center h-16 bg-gray-900">
-                    <i class="fas fa-university text-white text-2xl mr-2"></i>
-                    <span class="text-white font-bold uppercase">Portal Alumno</span>
-                </div>
-                <div class="flex flex-col flex-1 overflow-y-auto">
-                    <nav class="flex-1 px-2 py-4 bg-gray-800">
-                        <a href="#dashboard" class="nav-link flex items-center px-4 py-2 text-gray-100 bg-green-700 rounded-md">
-                            <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
-                        </a>
-                        <a href="#perfil" class="nav-link flex items-center px-4 py-2 mt-2 text-gray-400 hover:bg-gray-700 hover:text-gray-100 rounded-md">
-                            <i class="fas fa-user mr-2"></i> Mi Perfil
-                        </a>
-                        <a href="#inscripciones" class="nav-link flex items-center px-4 py-2 mt-2 text-gray-400 hover:bg-gray-700 hover:text-gray-100 rounded-md">
-                            <i class="fas fa-edit mr-2"></i> Inscripciones
-                        </a>
-                        <a href="#pagos" class="nav-link flex items-center px-4 py-2 mt-2 text-gray-400 hover:bg-gray-700 hover:text-gray-100 rounded-md">
-                            <i class="fas fa-money-bill-wave mr-2"></i> Pagos
-                        </a>
-                    </nav>
-                </div>
-            </div>
-
-            <!-- Contenido Principal -->
-            <div class="flex flex-col flex-1 overflow-y-auto">
-                <div class="flex items-center justify-between h-16 bg-white border-b border-gray-200">
-                    <div class="flex items-center px-4">
-                        <button id="menu-btn" class="text-gray-500 focus:outline-none focus:text-gray-700 md:hidden">
-                            <i class="fas fa-bars"></i>
-                        </button>
-                    </div>
-                    <div class="flex items-center pr-4">
-                        <span id="user-name" class="text-gray-600 mr-4"></span>
-                        <button id="logout-btn" class="flex items-center text-gray-500 hover:text-red-500 focus:outline-none">
-                             <i class="fas fa-sign-out-alt mr-1"></i> Cerrar Sesión
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="p-4 md:p-8">
-                    <!-- Contenido de las sub-vistas -->
-                    <div id="dashboard-content" class="app-content active"></div>
-                    <div id="perfil-content" class="app-content" style="display: none;"></div>
-                    <div id="inscripciones-content" class="app-content" style="display: none;"></div>
-                    <div id="pagos-content" class="app-content" style="display: none;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal para Simulación -->
-    <div id="modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" style="display: none;">
-      <div class="relative top-20 mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-white">
-        <div class="mt-3 text-center">
-            <div id="modal-icon" class="mx-auto flex items-center justify-center h-12 w-12 rounded-full">
-                <!-- Icono dinámico -->
-            </div>
-          <h3 id="modal-title" class="text-lg leading-6 font-medium text-gray-900 mt-2"></h3>
-          <div class="mt-2 px-7 py-3">
-            <p id="modal-message" class="text-sm text-gray-500"></p>
-          </div>
-          <div id="modal-loader" class="hidden my-4">
-            <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mx-auto"></div>
-            <p class="text-sm text-gray-500 mt-2">Procesando...</p>
-          </div>
-          <div id="modal-actions" class="items-center px-4 py-3">
-            <!-- Botones dinámicos -->
-          </div>
-        </div>
-      </div>
-    </div>
+<body class="bg-gray-100 font-sans">
+    <!-- ... (tu HTML se mantiene igual) ... -->
 
     <script>
-        // --- SIMULACIÓN DE DATOS Y ESTADO DE LA APLICACIÓN ---
-        const AppState = {
-            currentUser: null,
-            materias: [
-                { id: 'MAT101', nombre: 'Cálculo Diferencial', creditos: 8, cupo: 25, inscritos: 10, profesor: 'Dr. Alan Turing' },
-                { id: 'FIS201', nombre: 'Física Clásica', creditos: 6, cupo: 30, inscritos: 28, profesor: 'Dra. Marie Curie' },
-                { id: 'PROG301', nombre: 'Estructura de Datos', creditos: 8, cupo: 20, inscritos: 20, profesor: 'Dr. Edsger Dijkstra' },
-                { id: 'DB401', nombre: 'Bases de Datos Avanzadas', creditos: 6, cupo: 25, inscritos: 15, profesor: 'Dr. Edgar Codd' },
-            ],
-            inscripciones: [],
-            pagos: []
-        };
+        // --- ESTADO DE LA APLICACIÓN ---
+        const AppState = { currentUser: null, materias: [], inscripciones: [], pagos: [] };
 
-        // --- MOCK API (Simula llamadas a microservicios) ---
+        // --- API REAL (Llamadas a microservicios a través del Gateway en Render) ---
+        // URL PÚBLICA DE TU API GATEWAY
+        const API_BASE_URL = 'https://api-gateway-bimt.onrender.com/api';
+
         const api = {
             login: (matricula, password) => new Promise((resolve, reject) => {
                 setTimeout(() => {
@@ -181,460 +40,59 @@
                     }
                 }, 1000);
             }),
-            getMaterias: () => new Promise(resolve => {
-                setTimeout(() => resolve(AppState.materias), 500);
-            }),
-            inscribirMateria: (materiaId) => new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    const materia = AppState.materias.find(m => m.id === materiaId);
-                    if (materia.cupo > materia.inscritos) {
-                        AppState.inscripciones.push({ materiaId, status: 'PENDIENTE_PAGO' });
-                        resolve({ success: true, message: 'Pre-inscripción exitosa. Realiza el pago para confirmar.' });
-                    } else {
-                        reject('No hay cupo disponible.');
-                    }
-                }, 1500);
-            }),
-            realizarPago: (inscripcion) => new Promise(resolve => {
-                setTimeout(() => {
-                    // Simula la orquestación de pagos
-                    const pagoId = `PAY-${Date.now()}`;
-                    AppState.pagos.push({ id: pagoId, monto: 5500.00, status: 'COMPLETADO', fecha: new Date() });
-                    const inscripcionIndex = AppState.inscripciones.findIndex(i => i.materiaId === inscripcion.materiaId);
-                    AppState.inscripciones[inscripcionIndex].status = 'INSCRITO';
-                    
-                    const materiaIndex = AppState.materias.findIndex(m => m.id === inscripcion.materiaId);
-                    AppState.materias[materiaIndex].inscritos++;
-                    
-                    resolve({ success: true, comprobanteId: pagoId, message: 'Pago completado y materia inscrita.' });
-                }, 2500);
-            })
+            getMaterias: async () => {
+                 try {
+                    // En este caso, para obtener las materias, podríamos llamar directamente
+                    // al servicio de inscripciones o a través del gateway.
+                    // Usemos el gateway para mantener la consistencia.
+                    const response = await fetch('https://servicio-inscripciones-escolar.onrender.com/materias');
+                    if (!response.ok) throw new Error('Error al cargar las materias');
+                    const materias = await response.json();
+                    AppState.materias = materias;
+                    return materias;
+                } catch (error) {
+                    console.error("Error en getMaterias:", error);
+                    alert(`Error al cargar materias: ${error.message}`);
+                    return [];
+                }
+            },
+            inscribirMateria: async (materiaId) => {
+                const response = await fetch(`${API_BASE_URL}/inscripciones`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ materiaId })
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error);
+                AppState.inscripciones.push({ materiaId, status: 'PENDIENTE_PAGO' });
+                return result;
+            },
+            realizarPago: async (inscripcion) => {
+                const response = await fetch(`${API_BASE_URL}/pagos`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ inscripcionId: inscripcion.materiaId })
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error);
+                
+                const inscripcionIndex = AppState.inscripciones.findIndex(i => i.materiaId === inscripcion.materiaId);
+                if (inscripcionIndex !== -1) {
+                  AppState.inscripciones[inscripcionIndex].status = 'INSCRITO';
+                }
+                
+                const materia = AppState.materias.find(m => m.id === inscripcion.materiaId);
+                if (materia) materia.inscritos++;
+                
+                return result;
+            }
         };
-        
+
+        // --- (El resto de tu código JavaScript se mantiene igual) ---
         // --- MANEJO DE VISTAS Y NAVEGACIÓN ---
         const loginView = document.getElementById('login-view');
-        const appView = document.getElementById('app-view');
-        const userNameEl = document.getElementById('user-name');
-        
-        const appContents = document.querySelectorAll('.app-content');
-        const navLinks = document.querySelectorAll('.nav-link');
-
-        function navigate(hash) {
-            if (!hash) hash = '#dashboard';
-
-            appContents.forEach(content => content.style.display = 'none');
-            // Reset all nav links to their default, inactive state
-            navLinks.forEach(link => {
-                link.classList.remove('bg-green-700', 'text-gray-100');
-                link.classList.add('text-gray-400');
-            });
-
-            const contentId = `${hash.substring(1)}-content`;
-            const activeContent = document.getElementById(contentId);
-            const activeLink = document.querySelector(`.nav-link[href="${hash}"]`);
-
-            if (activeContent) {
-                activeContent.style.display = 'block';
-                // Apply active state to the clicked link
-                if(activeLink) {
-                    activeLink.classList.remove('text-gray-400');
-                    activeLink.classList.add('bg-green-700', 'text-gray-100');
-                }
-                
-                // Cargar contenido dinámico
-                switch(hash) {
-                    case '#dashboard': renderDashboard(); break;
-                    case '#perfil': renderPerfil(); break;
-                    case '#inscripciones': renderInscripciones(); break;
-                    case '#pagos': renderPagos(); break;
-                }
-            }
-        }
-        
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const hash = e.currentTarget.getAttribute('href');
-                window.location.hash = hash;
-            });
-        });
-        
-        window.addEventListener('hashchange', () => navigate(window.location.hash));
-
-
-        // --- LÓGICA DE RENDERIZADO DE CONTENIDO ---
-        function renderDashboard() {
-            const inscritas = AppState.inscripciones.filter(i => i.status === 'INSCRITO').length;
-            const pendientes = AppState.inscripciones.filter(i => i.status === 'PENDIENTE_PAGO').length;
-            
-            // Nueva lógica para obtener las materias inscritas
-            const materiasInscritas = AppState.inscripciones
-                .filter(i => i.status === 'INSCRITO')
-                .map(inscripcion => AppState.materias.find(m => m.id === inscripcion.materiaId));
-
-            let materiasInscritasHtml = `
-                <div class="p-4 text-center">
-                    <p class="text-gray-500">Aún no tienes materias inscritas.</p>
-                </div>
-            `;
-            if (materiasInscritas.length > 0) {
-                materiasInscritasHtml = materiasInscritas.map(materia => `
-                    <div class="border-t border-gray-200 p-4 flex justify-between items-center">
-                        <div>
-                            <p class="font-semibold text-gray-800">${materia.nombre}</p>
-                            <p class="text-sm text-gray-500">${materia.profesor}</p>
-                        </div>
-                        <span class="text-sm font-medium text-green-600 bg-green-100 py-1 px-3 rounded-full">Inscrito</span>
-                    </div>
-                `).join('');
-            }
-
-            document.getElementById('dashboard-content').innerHTML = `
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Bienvenido, ${AppState.currentUser.nombre}</h1>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <div class="flex items-center">
-                            <i class="fas fa-book text-3xl text-green-600"></i>
-                            <div class="ml-4">
-                                <p class="text-sm text-gray-500">Materias Inscritas</p>
-                                <p class="text-2xl font-bold text-gray-900">${inscritas}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <div class="flex items-center">
-                            <i class="fas fa-exclamation-triangle text-3xl text-yellow-500"></i>
-                            <div class="ml-4">
-                                <p class="text-sm text-gray-500">Pagos Pendientes</p>
-                                <p class="text-2xl font-bold text-gray-900">${pendientes}</p>
-                            </div>
-                        </div>
-                    </div>
-                     <div class="bg-white rounded-lg shadow p-6">
-                        <div class="flex items-center">
-                            <i class="fas fa-calendar-alt text-3xl text-green-500"></i>
-                            <div class="ml-4">
-                                <p class="text-sm text-gray-500">Próximo Periodo</p>
-                                <p class="text-xl font-bold text-gray-900">Sep - Dic 2025</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Nueva sección de Materias Inscritas -->
-                <div class="mt-8 bg-white rounded-lg shadow">
-                    <div class="p-6 border-b border-gray-200">
-                        <h2 class="text-xl font-bold text-gray-800">Mis Materias Inscritas</h2>
-                    </div>
-                    <div class="divide-y divide-gray-200">
-                        ${materiasInscritasHtml}
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderPerfil() {
-            const user = AppState.currentUser;
-            document.getElementById('perfil-content').innerHTML = `
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Mi Perfil</h1>
-                <div class="bg-white rounded-lg shadow overflow-hidden">
-                    <div class="p-6">
-                        <h2 class="text-xl font-semibold text-gray-900">${user.nombre}</h2>
-                        <p class="text-gray-600">${user.carrera}</p>
-                    </div>
-                    <div class="border-t border-gray-200">
-                        <dl>
-                            <div class="bg-gray-50 px-6 py-4 grid grid-cols-3 gap-4">
-                                <dt class="text-sm font-medium text-gray-500">Matrícula</dt>
-                                <dd class="mt-1 text-sm text-gray-900 col-span-2">${user.matricula}</dd>
-                            </div>
-                            <div class="bg-white px-6 py-4 grid grid-cols-3 gap-4">
-                                <dt class="text-sm font-medium text-gray-500">Email</dt>
-                                <dd class="mt-1 text-sm text-gray-900 col-span-2">${user.email}</dd>
-                            </div>
-                            <div class="bg-gray-50 px-6 py-4 grid grid-cols-3 gap-4">
-                                <dt class="text-sm font-medium text-gray-500">Cuatrimestre</dt>
-                                <dd class="mt-1 text-sm text-gray-900 col-span-2">${user.cuatrimestre}</dd>
-                            </div>
-                            <div class="bg-white px-6 py-4 grid grid-cols-3 gap-4">
-                                <dt class="text-sm font-medium text-gray-500">Grupo</dt>
-                                <dd class="mt-1 text-sm text-gray-900 col-span-2">${user.grupo}</dd>
-                            </div>
-                        </dl>
-                    </div>
-                </div>
-            `;
-        }
-        
-        async function renderInscripciones() {
-            const contentEl = document.getElementById('inscripciones-content');
-            contentEl.innerHTML = `<div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-32 w-32 mx-auto"></div>`;
-            
-            const materias = await api.getMaterias();
-            
-            let materiasHtml = materias.map(materia => {
-                const cupoDisponible = materia.cupo > materia.inscritos;
-                const yaInscrito = AppState.inscripciones.some(i => i.materiaId === materia.id && i.status === 'INSCRITO');
-                const pendientePago = AppState.inscripciones.some(i => i.materiaId === materia.id && i.status === 'PENDIENTE_PAGO');
-                
-                let buttonHtml;
-                if (yaInscrito) {
-                    buttonHtml = `<button disabled class="px-4 py-2 text-sm font-medium text-white bg-green-500 rounded-md cursor-not-allowed">Inscrito</button>`;
-                } else if (pendientePago) {
-                    buttonHtml = `<a href="#pagos" class="nav-link-pagos px-4 py-2 text-sm font-medium text-white bg-yellow-500 hover:bg-yellow-600 rounded-md">Pagar</a>`;
-                } else if (!cupoDisponible) {
-                    buttonHtml = `<button disabled class="px-4 py-2 text-sm font-medium text-white bg-gray-400 rounded-md cursor-not-allowed">Sin Cupo</button>`;
-                } else {
-                    buttonHtml = `<button data-materia-id="${materia.id}" class="inscribir-btn px-4 py-2 text-sm font-medium text-white bg-green-700 hover:bg-green-800 rounded-md">Inscribir</button>`;
-                }
-                
-                return `
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-gray-900">${materia.nombre}</div>
-                            <div class="text-sm text-gray-500">${materia.id}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${materia.profesor}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${materia.creditos}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${materia.inscritos} / ${materia.cupo}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            ${buttonHtml}
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-            
-            contentEl.innerHTML = `
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Oferta de Materias</h1>
-                <div class="bg-white rounded-lg shadow overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Materia</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profesor</th>
-                                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Créditos</th>
-                                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Cupo</th>
-                                <th scope="col" class="relative px-6 py-3"><span class="sr-only">Acciones</span></th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            ${materiasHtml}
-                        </tbody>
-                    </table>
-                </div>
-            `;
-
-            // Agregar listeners a los botones recién creados
-            document.querySelectorAll('.inscribir-btn').forEach(btn => {
-                btn.addEventListener('click', handleInscripcionClick);
-            });
-            document.querySelectorAll('.nav-link-pagos').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    window.location.hash = '#pagos';
-                });
-            });
-        }
-        
-        function renderPagos() {
-            const contentEl = document.getElementById('pagos-content');
-            const pendientes = AppState.inscripciones.filter(i => i.status === 'PENDIENTE_PAGO');
-            
-            let contentHtml;
-            if (pendientes.length === 0) {
-                contentHtml = `<div class="bg-white rounded-lg shadow p-8 text-center">
-                    <i class="fas fa-check-circle text-5xl text-green-500 mb-4"></i>
-                    <h2 class="text-xl font-semibold text-gray-800">¡Todo en orden!</h2>
-                    <p class="text-gray-600 mt-2">No tienes pagos pendientes.</p>
-                </div>`;
-            } else {
-                contentHtml = pendientes.map(inscripcion => {
-                    const materia = AppState.materias.find(m => m.id === inscripcion.materiaId);
-                    return `
-                        <div class="bg-white rounded-lg shadow p-6 flex items-center justify-between">
-                            <div>
-                                <h3 class="font-bold text-lg text-gray-800">Inscripción a: ${materia.nombre}</h3>
-                                <p class="text-sm text-gray-500">Concepto: Colegiatura e Inscripción Cuatrimestral</p>
-                                <p class="text-2xl font-bold text-green-700 mt-2">$5,500.00 MXN</p>
-                            </div>
-                            <button data-inscripcion-id="${materia.id}" class="pagar-btn bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg transition duration-300">
-                                Proceder al Pago
-                            </button>
-                        </div>
-                    `;
-                }).join('<div class="my-4"></div>');
-            }
-            
-            contentEl.innerHTML = `
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Mis Pagos</h1>
-                ${contentHtml}
-            `;
-            
-            document.querySelectorAll('.pagar-btn').forEach(btn => {
-                btn.addEventListener('click', handlePagoClick);
-            });
-        }
-        
-        // --- MANEJO DE EVENTOS ---
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const matricula = e.target.matricula.value;
-            const password = e.target.password.value;
-            const btn = e.target.querySelector('button');
-            btn.disabled = true;
-            btn.innerHTML = 'Ingresando...';
-
-            try {
-                const userData = await api.login(matricula, password);
-                AppState.currentUser = userData;
-                
-                loginView.classList.remove('active');
-                appView.classList.add('active');
-                userNameEl.textContent = userData.nombre;
-                window.location.hash = '#dashboard';
-                navigate('#dashboard');
-            } catch (error) {
-                alert(error);
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = `
-                    <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-                        <i class="fas fa-lock h-5 w-5 text-green-600 group-hover:text-green-400"></i>
-                    </span>
-                    Ingresar`;
-            }
-        });
-        
-        document.getElementById('logout-btn').addEventListener('click', () => {
-            AppState.currentUser = null;
-            AppState.inscripciones = [];
-            AppState.pagos = [];
-            appView.classList.remove('active');
-            loginView.classList.add('active');
-            window.location.hash = '';
-        });
-
-        async function handleInscripcionClick(e) {
-            const materiaId = e.target.dataset.materiaId;
-            const materia = AppState.materias.find(m => m.id === materiaId);
-            
-            openModal(
-                'Confirmar Inscripción',
-                `¿Deseas inscribirte a la materia "${materia.nombre}"? Esto generará una orden de pago.`,
-                '<i class="fas fa-question-circle text-4xl text-blue-500"></i>',
-                `<button id="cancel-btn" class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 mr-2">Cancelar</button>
-                 <button id="confirm-btn" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Confirmar</button>`
-            );
-
-            document.getElementById('confirm-btn').onclick = async () => {
-                showModalLoader();
-                try {
-                    const result = await api.inscribirMateria(materiaId);
-                    updateModal(
-                        'Pre-inscripción Exitosa',
-                        result.message,
-                        '<i class="fas fa-check-circle text-4xl text-green-500"></i>',
-                        `<button id="close-modal-btn" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Aceptar</button>`
-                    );
-                    document.getElementById('close-modal-btn').onclick = () => {
-                        closeModal();
-                        renderInscripciones(); // Refresh view
-                    };
-                } catch (error) {
-                    updateModal('Error', error, '<i class="fas fa-times-circle text-4xl text-red-500"></i>', `<button id="close-modal-btn" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Cerrar</button>`);
-                    document.getElementById('close-modal-btn').onclick = closeModal;
-                }
-            };
-            document.getElementById('cancel-btn').onclick = closeModal;
-        }
-
-        async function handlePagoClick(e) {
-            const inscripcionId = e.target.dataset.inscripcionId;
-            const inscripcion = AppState.inscripciones.find(i => i.materiaId === inscripcionId);
-            const materia = AppState.materias.find(m => m.id === inscripcionId);
-
-            openModal(
-                'Procesando Pago',
-                `Simulando conexión segura con la pasarela de pagos para la inscripción a "${materia.nombre}".`,
-                '<i class="fas fa-credit-card text-4xl text-green-600"></i>',
-                ''
-            );
-            showModalLoader();
-
-            try {
-                const result = await api.realizarPago(inscripcion);
-                // Simulación de descarga de comprobante
-                const comprobanteData = `
-                    COMPROBANTE DE PAGO
-                    ---------------------
-                    ID de Transacción: ${result.comprobanteId}
-                    Fecha: ${new Date().toLocaleString()}
-                    Alumno: ${AppState.currentUser.nombre} (${AppState.currentUser.matricula})
-                    Concepto: Inscripción a ${materia.nombre}
-                    Monto: $5,500.00 MXN
-                    Estado: PAGADO
-                `;
-                const blob = new Blob([comprobanteData], { type: 'text/plain' });
-                const url = window.URL.createObjectURL(blob);
-                
-                updateModal(
-                    '¡Pago Exitoso!',
-                    'Tu inscripción ha sido confirmada. Puedes descargar tu comprobante.',
-                    '<i class="fas fa-check-circle text-4xl text-green-500"></i>',
-                    `<a href="${url}" download="comprobante-${result.comprobanteId}.txt" id="download-btn" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 mr-2">Descargar Comprobante</a>
-                     <button id="close-modal-btn" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Finalizar</button>`
-                );
-                
-                document.getElementById('close-modal-btn').onclick = () => {
-                    window.URL.revokeObjectURL(url);
-                    closeModal();
-                    renderPagos();
-                    renderInscripciones();
-                };
-            } catch (error) {
-                // ...
-            }
-        }
-        
-        // --- UTILIDADES MODAL ---
-        const modal = document.getElementById('modal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalMessage = document.getElementById('modal-message');
-        const modalIcon = document.getElementById('modal-icon');
-        const modalActions = document.getElementById('modal-actions');
-        const modalLoader = document.getElementById('modal-loader');
-
-        function openModal(title, message, iconHtml, actionsHtml) {
-            modalTitle.textContent = title;
-            modalMessage.textContent = message;
-            modalIcon.innerHTML = iconHtml;
-            modalActions.innerHTML = actionsHtml;
-            modalLoader.classList.add('hidden');
-            modalActions.classList.remove('hidden');
-            modal.style.display = 'block';
-        }
-
-        function updateModal(title, message, iconHtml, actionsHtml) {
-            modalTitle.textContent = title;
-            modalMessage.textContent = message;
-            modalIcon.innerHTML = iconHtml;
-            modalActions.innerHTML = actionsHtml;
-            modalLoader.classList.add('hidden');
-            modalActions.classList.remove('hidden');
-        }
-
-        function showModalLoader() {
-            modalActions.classList.add('hidden');
-            modalLoader.classList.remove('hidden');
-        }
-        
-        function closeModal() {
-            modal.style.display = 'none';
-        }
-
+        // ...
     </script>
 </body>
 </html>
-
-
 
